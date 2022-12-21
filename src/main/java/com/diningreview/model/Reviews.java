@@ -1,16 +1,18 @@
 package com.diningreview.model;
 
-import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @ToString
 @Entity
+@AllArgsConstructor
 public class Reviews {
 	
 	private enum reviewStatus {Accepted, Rejected, Pending};
