@@ -13,13 +13,13 @@ import lombok.ToString;
 @ToString
 @Entity
 @AllArgsConstructor
-public class Reviews {
+public class Review {
 	
-	private enum reviewStatus {Accepted, Rejected, Pending};
+	public enum reviewStatus {Accepted, Rejected, Pending};
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private @Getter Long id;
 	private @Getter @Setter String userName;
 	private @Getter @Setter Long restaurantId;
 	private @Getter @Setter Double peanutScore;
@@ -27,6 +27,8 @@ public class Reviews {
 	private @Getter @Setter Double dairyScore;
 	private @Getter @Setter String comment;
 	private @Getter @Setter reviewStatus status;
+	public Review() {
+	}
 	
 	
 }
