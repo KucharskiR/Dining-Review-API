@@ -24,51 +24,56 @@
 	<div class="container my-2" align="center">
 
 		<div class="page-header">
-			<h1>Dining Review Application</h1>
+			<h1>Admin panel</h1>
 		</div>
 		<div class="page-header">
-			<h3>Application for allergy sufferers</h3>
+			<h3>Pending Reviews</h3>
 		</div>
 		<div style="margin-bottom: 20px">
 			<ul class="nav nav-pills">
-				<li class="nav-item"><a class="nav-link active" href="">Home</a></li>
-				<!-- <li class="nav-item"><a class="nav-link" href="admin">Admin</a></li> -->
-				<li class="nav-item"><a class="nav-link" href="newUser">Register</a></li>
+				<li class="nav-item"><a class="nav-link" href="admin">Back</a></li>
 			</ul>
 		</div>
 		<div th:if="${message}" th:text="${message}"
 			th:class="${'alert ' + alertClass}"></div>
 		<div align="center">
-		<div class="mb-2"><strong>Restaurant List</strong></div>
-			<table 
-				class="table table-striped table-bordered table-responsive-md"
+			<table class="table table-striped table-bordered table-responsive-md"
 				border="1">
 				<thead align="center">
 					<tr>
+						<!-- 	<th>ID</th> -->
+						<th>Id</th>
+						<th>Username</th>
 						<th>Restaurant</th>
 						<th>Peanut Score</th>
 						<th>Egg Score</th>
 						<th>Dairy Score</th>
+						<th>Comment</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody align="center">
-					<tr th:each="Restaurant:${restaurantlist}">
-						<td th:text="${Restaurant.name}"></td>
-						<!-- <td th:text="${Restaurant.peanutScore} == null ? '-' : ${Restaurant.peanutScore}"></td> -->
+					<tr th:each="Review:${pendingReviewsList}">
+						<!-- 						<td th:text="${Review.id}"></td> -->
+						<td th:text="${Review.idReview}"></td>
+						<td th:text="${Review.userName}"></td>
+						<td th:text="${Review.restaurantName}"></td>
 						<td><input class="rating rating-loading"
-							th:value="${Restaurant.peanutScore}" data-show-clear="false"
+							th:value="${Review.peanutScore}" data-show-clear="false"
 							data-readonly="true" data-disabled="true" data-size="sm"></td>
 						<td><input class="rating rating-loading"
-							th:value="${Restaurant.eggScore}" data-show-clear="false"
+							th:value="${Review.eggScore}" data-show-clear="false"
 							data-readonly="true" data-disabled="true" data-size="sm"></td>
 						<td><input class="rating rating-loading"
-							th:value="${Restaurant.dairyScore}" data-show-clear="false"
+							th:value="${Review.dairyScore}" data-show-clear="false"
 							data-readonly="true" data-disabled="true" data-size="sm"></td>
-						<td><a th:href="@{/addReview/{id}(id=${Restaurant.id})}"
-							class="btn btn-info mb-2">Add Opinion</a>
-							<a th:href="@{/showComments/{id}(id=${Restaurant.id})}"
-							class="btn btn-info mb-2">Show Comments</a></td>
+						<td th:text="${Review.comment}"></td>
+						<td><a th:href="@{/acceptReview/{id}(id=${Review.idReview})}"
+							class="btn btn-success mb-2">Accept</a>
+							<a th:href="@{/rejectReview/{id}(id=${Review.idReview})}"
+							class="btn btn-danger">Reject</a></td>
+						<!-- 						<td><a th:href="@{/addReview/{id}(id=${Restaurant.id})}"
+							class="btn btn-info">Add Opinion</a></td> -->
 					</tr>
 				</tbody>
 			</table>

@@ -19,7 +19,7 @@ public class Restaurant {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private @Getter Long id;
 
 	private @Getter @Setter String name;

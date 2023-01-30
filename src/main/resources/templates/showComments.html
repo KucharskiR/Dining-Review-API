@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Document metadata -->
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/star-rating.css">
+<link rel="stylesheet" type="text/css"
+	href="../themes/krajee-fa/theme.css">
+<link rel="stylesheet" type="text/css"
+	href="../themes/krajee-svg/theme.css">
+<link rel="stylesheet" type="text/css"
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../themes/krajee-fa/theme.js"></script>
+<script src="../themes/krajee-svg/theme.js"></script>
+<script src="../js/star-rating.min.js"></script>
+</head>
+<body>
+	<!-- Document content -->
+
+
+	<div class="container my-2" align="center">
+
+		<div class="page-header">
+			<h1>Dining Review Application</h1>
+		</div>
+		<div class="page-header">
+			<h3 th:text="${'Comments for ' + restaurantName}"></h3>
+		</div>
+		<div style="margin-bottom: 20px">
+			<ul class="nav nav-pills">
+				<li class="nav-item"><a class="nav-link" href="../../">Back</a></li>
+			</ul>
+		</div>
+		<div align="center">
+			<table class="table table-striped table-bordered table-responsive-md"
+				border="1">
+				<thead align="center">
+					<tr>
+						<!-- 	<th>ID</th> -->
+						<th>Username</th>
+						<th>Peanut Score</th>
+						<th>Egg Score</th>
+						<th>Dairy Score</th>
+						<th>Comment</th>
+					</tr>
+				</thead>
+				<tbody align="center">
+					<tr th:each="Review:${allCommentsList}">
+						<!-- 						<td th:text="${Review.id}"></td> -->
+						<td th:text="${Review.userName}"></td>
+						<td><input class="rating rating-loading"
+							th:value="${Review.peanutScore}" data-show-clear="false"
+							data-readonly="true" data-disabled="true" data-size="sm"></td>
+						<td><input class="rating rating-loading"
+							th:value="${Review.eggScore}" data-show-clear="false"
+							data-readonly="true" data-disabled="true" data-size="sm"></td>
+						<td><input class="rating rating-loading"
+							th:value="${Review.dairyScore}" data-show-clear="false"
+							data-readonly="true" data-disabled="true" data-size="sm"></td>
+						<td th:text="${Review.comment}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="footer" align="center">
+		<p>Author: Radosław Kucharski</p>
+		<a href="https://github.com/KucharskiR">GitHub</a>
+	</div>
+
+</body>
+
+</html>

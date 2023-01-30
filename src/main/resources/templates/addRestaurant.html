@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Document metadata -->
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<!-- Document content -->
+	<div class="container my-2" align="center">
+
+		<div class="page-header">
+			<h1>Admin panel</h1>
+		</div>
+		<div class="page-header">
+			<h3>Add Restaurant</h3>
+		</div>
+		<div style="margin-bottom: 20px">
+			<ul class="nav nav-pills">
+				<li class="nav-item"><a class="nav-link" href="admin">Back</a></li>
+			</ul>
+		</div>
+		<div align="left">
+			<form action="#" th:action="@{/addRestaurant/save}"
+				th:object="${newRestaurant}" method="POST">
+				<label>Restaurant Name</label> <input type="text" th:field="*{name}"
+					placeholder="Restaurant Name" class="form-control mb-4 col-2">
+
+				<button type="submit" class="btn btn-info col-2">Save
+					Restaurant</button>
+			</form>
+			<div th:if="${message}" th:text="${message}"
+				th:class="${'alert ' + alertClass}" /></div>
+		</div>
+	</div>
+	<div class="footer" align="center">
+		<p>Author: Radosław Kucharski</p>
+		<a href="https://github.com/KucharskiR">GitHub</a>
+	</div>
+</body>
+
+</html>

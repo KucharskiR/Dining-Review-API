@@ -18,7 +18,7 @@ public class Review {
 	public enum reviewStatus {Accepted, Rejected, Pending};
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private @Getter Long id;
 	private @Getter @Setter String userName;
 	private @Getter @Setter Long restaurantId;

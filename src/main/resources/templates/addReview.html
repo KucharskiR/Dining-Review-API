@@ -3,12 +3,19 @@
 <head>
 <!-- Document metadata -->
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/css/star-rating.css">
-<link rel="stylesheet" type="text/css" href="/themes/krajee-fa/theme.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="/themes/krajee-fa/theme.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/star-rating.css">
+<link rel="stylesheet" type="text/css"
+	href="../themes/krajee-fa/theme.css">
+<link rel="stylesheet" type="text/css"
+	href="../themes/krajee-svg/theme.css">
+<link rel="stylesheet" type="text/css"
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../themes/krajee-fa/theme.js"></script>
+<script src="../themes/krajee-svg/theme.js"></script>
+<script src="../js/star-rating.min.js"></script>
 </head>
 <body>
 	<!-- Document content -->
@@ -19,39 +26,79 @@
 		</div>
 		<div style="margin-bottom: 20px">
 			<ul class="nav nav-pills">
-				<li class="nav-item"><a class="nav-link" href="/">Back</a></li>
+				<li class="nav-item"><a class="nav-link" href="../../">Back</a></li>
 			</ul>
 		</div>
+		<div th:if="${message}" th:text="${message}"
+			th:class="${'alert ' + alertClass}"></div>
 		<!-- <div th:text="${Restaurant.name}"></div> -->
 		<div align="left">
-		<form action="#" th:action="@{/addReview/save}" th:object="${newReview}"
-			method="POST">
-			<input type="text" th:placeholder="'Opinion for Restaurant ' + ${Restaurant.name}" class="form-control mb-4 col-5" readonly>
-			<label>Username: if you do not have an account please <a href="/newUser">Register</a> first </label>
-			<input type="text" th:field="*{userName}" placeholder="Username"
-				class="form-control mb-4 col-2">
-				<label>Peanut Score: </label><input type="number" min="0" max="5" step="0.5" placeholder="0" th:field="*{peanutScore}" class="form-control mb-4 col-2">
-				<label>Egg Score: </label><input type="number" min="0" max="5" step="0.5" placeholder="0" th:field="*{eggScore}" class="form-control mb-4 col-2">
-				<label>Dairy Score: </label><input type="number" min="0" max="5" step="0.5" placeholder="0" th:field="*{dairyScore}" class="form-control mb-4 col-2">
-				 <!-- <input type="number"
+			<form action="#" th:action="@{/addReview/save}"
+				th:object="${newReview}" method="POST">
+				<div class="row">
+					<div class="col-10">
+						<input type="text"
+							th:placeholder="'Opinion for Restaurant ' + ${Restaurant.name}"
+							class="form-control mb-4 col-5" readonly>
+					</div>
+					<div class="col-8">
+						<label>Username: if you do not have an account please <a
+							href="/newUser">Register</a> first
+						</label> <input type="text" th:field="*{userName}" placeholder="Username"
+							class="form-control mb-4 col-2">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<label>Peanut Score: </label><input type="text"
+							class="rating rating-loading" min="0" max="5" step="0.5"
+							placeholder="5" th:field="*{peanutScore}">
+					</div>
+					<div class="col">
+						<label>Egg Score: </label><input type="text"
+							class="rating rating-loading" min="0" max="5" step="0.5"
+							placeholder="5" th:field="*{eggScore}">
+					</div>
+					<div class="col">
+						<label>Dairy Score: </label><input type="text"
+							class="rating rating-loading" min="0" max="5" step="0.5"
+							placeholder="5" th:field="*{dairyScore}">
+					</div>
+				</div>
+				<!-- <label>Dairy Score: </label><input type="number" min="0" max="5" step="0.5" placeholder="0" th:field="*{dairyScore}" class="form-control mb-4 col-2"> -->
+				<!-- <input type="number"
 				th:field="${#numbers.formatDecimal(peanutScore,2,3)}" placeholder="Peanut Score"
 				class="form-control mb-4 col-4"> <input type="number"
 				th:field="${#numbers.formatDecimal(eggScore,2,3)}" placeholder="Egg Score"
 				class="form-control mb-4 col-4"> <input type="number"
 				th:field="${#numbers.formatDecimal(dairyScore,2,3)}" placeholder="Dairy Score"
-				class="form-control mb-4 col-4"> --> <textarea 
-				th:field="*{comment}" placeholder="Your opinion"
-				class="form-control col-5" rows="5" style="margin-bottom: 20px"></textarea>
-				<input type="hidden" th:value="${Restaurant.id}" name="restaurantId">
+				class="form-control mb-4 col-4"> -->
+				<div class="row">
+					<div class="col">
+						<textarea th:field="*{comment}" placeholder="Your opinion"
+							class="form-control mt-2 mb-2" rows="5"></textarea>
+					</div>
+					<div class="col">
+						<input type="hidden" th:value="${Restaurant.id}"
+							name="restaurantId">
 
-			<button type="submit" class="btn btn-info col-2">Save Opinion</button>
-		</form>
-		<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<button type="submit" class="btn btn-info">Save Opinion</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 
-<script th:src="@{/js/star-rating.min.js}"></script>
+	<script th:src="@{/js/star-rating.min.js}"></script>
 
+	<div class="footer" align="center">
+		<p>Author: Radosław Kucharski</p>
+		<a href="https://github.com/KucharskiR">GitHub</a>
+	</div>
 </body>
 
 </html>

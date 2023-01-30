@@ -11,6 +11,6 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Long>{
 	Restaurant deleteById(long id);
 	List<Restaurant> getAllByOrderByNameAsc();
 	Optional<Restaurant> findByName(String name);
-	Restaurant findById(long id);
+	Restaurant getById(long id);
 	
 }

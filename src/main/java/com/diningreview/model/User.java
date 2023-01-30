@@ -10,23 +10,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user_table")
+@Table(name = "users")
 public class User {
 	public User() {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private @Getter Long id;
 	private @Getter @Setter String name;
 	private @Getter @Setter String city;
 	private @Getter @Setter String state;
-	private @Getter @Setter Long zipcode;
+	private @Getter @Setter String zipcode;
 	private @Getter @Setter Boolean peanutInterested;
 	private @Getter @Setter Boolean eggInterested;
 	private @Getter @Setter Boolean dairyInterested;
 	
-	public User (String name, String city, String state, Long zipcode, Boolean peanutInterested,
+	public User (String name, String city, String state, String zipcode, Boolean peanutInterested,
 			Boolean eggInterested, Boolean dairyInterested) {
 		this.name = name;
 		this.city = city;
