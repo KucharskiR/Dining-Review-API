@@ -21,8 +21,6 @@ import com.diningreview.repository.RestaurantRepository;
 import com.diningreview.repository.ReviewRepository;
 import com.diningreview.repository.UsersRepository;
 
-
-
 @Controller
 public class DiningReviewController {
 	private final UsersRepository usersRepository;
@@ -41,29 +39,30 @@ public class DiningReviewController {
 		model.addAttribute("restaurantlist", restaurantRepository.getAllByOrderByNameAsc());
 		return "index";
 	}
-	
+
 // Admin Section
-	
+
 	@GetMapping("/admin")
 	public String getUsers(Model model) {
 		model.addAttribute("userslist", usersRepository.getAllByOrderByNameAsc());
-		model.addAttribute("pendingCount", reviewRepository.findByStatus(reviewStatus.Pending).size() == 0 ? 0 : reviewRepository.findByStatus(reviewStatus.Pending).size());
+		model.addAttribute("pendingCount", reviewRepository.findByStatus(reviewStatus.Pending).size() == 0 ? 0
+				: reviewRepository.findByStatus(reviewStatus.Pending).size());
 		return "admin";
 	}
-	
+
 	@GetMapping("/deleteUser/{id}")
 	public String deleteThroughId(@PathVariable(value = "id") long id) {
 		usersRepository.deleteById(id);
 		return "redirect:/admin";
 	}
-	
+
 	@GetMapping("/pendingReviews")
 	public String pendingReviews(Model model) {
 		List<ReviewMod> pendingReviewsList = new ArrayList<ReviewMod>();
-		
+
 		List<Review> pendingReviews = reviewRepository.findByStatus(reviewStatus.Pending);
 		for (Review review : pendingReviews) {
-			
+
 			ReviewMod newReviewMod = new ReviewMod();
 			Restaurant restaurantOptional = restaurantRepository.getById(review.getRestaurantId());
 
@@ -76,48 +75,50 @@ public class DiningReviewController {
 			newReviewMod.setStatus(review.getStatus());
 			newReviewMod.setRestaurantName(restaurantOptional.getName());
 			newReviewMod.setIdReview(review.getId());
-			
+
 			pendingReviewsList.add(newReviewMod);
 		}
 		model.addAttribute("pendingReviewsList", pendingReviewsList);
 		return "pendingReviews";
 	}
-	
-	@GetMapping("/acceptReview/{id}") 
+
+	@GetMapping("/acceptReview/{id}")
 	public String acceptReview(@PathVariable(value = "id") long id, Model model) {
 		Review acceptReview = reviewRepository.findById(id);
 		acceptReview.setStatus(reviewStatus.Accepted);
 		reviewRepository.save(acceptReview);
-		
-		List<Review> reviewsToRecalculate = reviewRepository.findByStatusAndRestaurantId(reviewStatus.Accepted, acceptReview.getRestaurantId());
+
+		List<Review> reviewsToRecalculate = reviewRepository.findByStatusAndRestaurantId(reviewStatus.Accepted,
+				acceptReview.getRestaurantId());
 		Restaurant restaurantMod = restaurantRepository.getById(acceptReview.getRestaurantId());
 		restaurantMod.setPeanutScore(average(reviewsToRecalculate, "peanutScore"));
 		restaurantMod.setEggScore(average(reviewsToRecalculate, "eggScore"));
 		restaurantMod.setDairyScore(average(reviewsToRecalculate, "dairyScore"));
 		restaurantRepository.save(restaurantMod);
-		
+
 		return "redirect:/pendingReviews";
 	}
-	
-	@GetMapping("/rejectReview/{id}") 
+
+	@GetMapping("/rejectReview/{id}")
 	public String rejectReview(@PathVariable(value = "id") long id, Model model) {
 		Review rejectReview = reviewRepository.findById(id);
 		rejectReview.setStatus(reviewStatus.Rejected);
 		reviewRepository.save(rejectReview);
 		return "redirect:/pendingReviews";
 	}
-	
+
 //	Restaurant section
-	
+
 	@GetMapping("/addRestaurant")
 	public String addRestaurant(Model model) {
-		Restaurant newRestaurant = new Restaurant(); 
+		Restaurant newRestaurant = new Restaurant();
 		model.addAttribute("newRestaurant", newRestaurant);
 		return "addRestaurant";
 	}
-	
+
 	@PostMapping("/addRestaurant/save")
-	public String saveRestaurant(@ModelAttribute("newRestaurant") Restaurant restaurant, RedirectAttributes redirectAttributes) {
+	public String saveRestaurant(@ModelAttribute("newRestaurant") Restaurant restaurant,
+			RedirectAttributes redirectAttributes) {
 		Optional<Restaurant> restaurantOptional = this.restaurantRepository.findByName(restaurant.getName());
 		restaurant.setPeanutScore(null);
 		restaurant.setEggScore(null);
@@ -134,8 +135,8 @@ public class DiningReviewController {
 	}
 
 //	Review section
-	
-	@GetMapping("/addReview/{id}") 
+
+	@GetMapping("/addReview/{id}")
 	public String addReviewRestaurant(@PathVariable(value = "id") long id, Model model) {
 		Review newReview = new Review();
 		model.addAttribute("newReview", newReview);
@@ -145,20 +146,31 @@ public class DiningReviewController {
 
 	@PostMapping("/addReview/save")
 	public String saveReview(@ModelAttribute("newReview") Review review, RedirectAttributes redirectAttributes) {
+		
 		review.setStatus(reviewStatus.Pending);
-		Optional<Review> reviewOptional = this.reviewRepository.findByUserNameAndRestaurantId(review.getUserName(),review.getRestaurantId());
-		if (reviewOptional.isPresent()) {
-			redirectAttributes.addFlashAttribute("message", "You already added an opinion for this restaurant!");
-			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+		Optional<Review> reviewOptional = this.reviewRepository.findByUserNameAndRestaurantId(review.getUserName(),
+				review.getRestaurantId());
+		Optional<User> userOptional = this.usersRepository.findByName(review.getUserName());
+		
+		if (userOptional.isPresent()) {
+			if (reviewOptional.isPresent()) {
+				redirectAttributes.addFlashAttribute("message", "You already added an opinion for this restaurant!");
+				redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			} else {
+				this.reviewRepository.save(review);
+				redirectAttributes.addFlashAttribute("message",
+						"Opinion added! It must be accepted by the site Administrator");
+				redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+			}
 		} else {
-			this.reviewRepository.save(review);
-			redirectAttributes.addFlashAttribute("message", "Opinion added! It must be accepted by the site Administrator");
-			redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+			redirectAttributes.addFlashAttribute("message",
+					"User does not exist. Please use other Username or please Register.");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 		}
 		return "redirect:/";
 	}
-	
-	@GetMapping("/showComments/{id}") 
+
+	@GetMapping("/showComments/{id}")
 	public String showComments(@PathVariable(value = "id") long id, Model model) {
 		List<Review> allComments = reviewRepository.findByStatusAndRestaurantId(reviewStatus.Accepted, id);
 		model.addAttribute("allCommentsList", allComments);
@@ -167,14 +179,14 @@ public class DiningReviewController {
 	}
 
 //	User section
-	
+
 	@GetMapping("/newUser")
 	public String newUser(Model model) {
-		User newUser = new User(); 
+		User newUser = new User();
 		model.addAttribute("newUser", newUser);
 		return "newUser";
 	}
-	
+
 	@PostMapping("/newUser/save")
 	public String saveUser(@ModelAttribute("newUser") User user, RedirectAttributes redirectAttributes) {
 		Optional<User> userOptional = this.usersRepository.findByName(user.getName());
@@ -188,7 +200,7 @@ public class DiningReviewController {
 		}
 		return "redirect:/newUser";
 	}
-	
+
 //	 Methods
 	public Double average(List<Review> list, String score) {
 		int size = 0;
@@ -231,20 +243,18 @@ public class DiningReviewController {
 				throw new IllegalArgumentException("Unexpected value: " + score);
 			}
 		}
-		
-		if(size > 0)  {
-			average = sum/size;
-			average = Math.round(10*average);
+
+		if (size > 0) {
+			average = sum / size;
+			average = Math.round(10 * average);
 			average /= 10;
-		}
-			else average = 0;
-			
-		return   average;
-		
+		} else
+			average = 0;
+
+		return average;
+
 	}
-	
-	
-	
+
 //	@PostMapping("/users/add")
 //	public User addUser(@RequestBody User user) {
 //		Optional<User> userOptional = this.usersRepository.findByName(user.getName());

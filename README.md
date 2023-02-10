@@ -18,6 +18,8 @@ Admin panel:					[http://myapplication.ovh/admin](http://myapplication.ovh/admin
 
 *   JavaSE 18
 *   Spring Boot 3.0.1
+*	Hibernate
+*	PostgreSQL 15
 *   Lombok
 
 ### Frontend
