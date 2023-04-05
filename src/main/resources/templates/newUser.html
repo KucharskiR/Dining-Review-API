@@ -7,7 +7,7 @@
 </head>
 <body>
 	<!-- Document content -->
-	<div class="container my-2" align="center">
+	<div class="container-lg my-2" align="center">
 
 		<div class="page-header">
 			<h1>Dining Review Application</h1>
@@ -25,30 +25,15 @@
 				th:class="${'alert ' + alertClass}"></div>
 			<form action="#" th:action="@{/newUser/save}" th:object="${newUser}"
 				method="POST">
-				<div class="row">
-					<div class="col">
 						<label>Username*</label> <input type="text" th:field="*{name}"
-							placeholder="Username" class="form-control mb-4 col-5"
+							placeholder="Username" class="form-control mb-4 col-2"
 							required="required">
-					</div>
-					<div class="col">
-						<label>City*</label> <input type="text" th:field="*{city}"
-							placeholder="City" class="form-control mb-4 col-5"
+						<label>Password*</label> <input type="password" th:field="*{password}"
+							placeholder="Password" class="form-control mb-4 col-2"
 							required="required">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<label>State*</label> <input type="text" th:field="*{state}"
-							placeholder="State" class="form-control mb-4 col-2"
+						<label>Email*</label> <input type="email" th:field="*{email}"
+							placeholder="your@email.com" class="form-control mb-4 col-4"
 							required="required">
-					</div>
-					<div class="col">
-						<label>Zipcode*</label> <input type="text" th:field="*{zipcode}"
-							placeholder="00-000" class="form-control mb-4 col-2"
-							required="required" pattern="[0-9]{2}[-][0-9]{3}">
-					</div>
-				</div>
 				<div class="row">
 					<div class="col">
 						<label>Are you interested in Peanut Allergies?</label> <input

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Document metadata -->
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link
+	href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css"
+	rel="stylesheet" />
+</head>
+<body>
+	<!-- Document content -->
+	<div class="container" align="center">
+
+		<div class="page-header">
+			<h1>Dining Review Application</h1>
+		</div>
+		<div class="page-header">
+			<h3>Login</h3>
+		</div>
+		<div align="center">
+			<div style="margin-bottom: 20px">
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a class="nav-link" href="./">Back</a></li>
+				</ul>
+			</div>
+			<div style="margin-right:auto;margin-left:auto;max-width:200px">
+			<form action="#" th:action="@{/login}" 
+				method="POST">
+				<h2 class="form-signin-heading">Please sign in</h2>
+				<p>
+					<label for="username" class="sr-only">Username</label> <input
+						type="text" id="username" name="username" class="form-control"
+						placeholder="Username" required autofocus>
+				</p>
+				<p>
+					<label for="password" class="sr-only">Password</label> <input
+						type="password" id="password" name="password" class="form-control"
+						placeholder="Password" required>
+				</p>
+				<button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+			</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

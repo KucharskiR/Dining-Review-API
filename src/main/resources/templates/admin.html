@@ -7,7 +7,7 @@
 </head>
 <body>
 	<!-- Document content -->
-	<div class="container my-2" align="center">
+	<div class="container-lg my-2" align="center">
 
 		<div class="page-header">
 			<h1>Admin panel</h1>
@@ -29,9 +29,7 @@
 					<tr>
 						<th>Id</th>
 						<th>Name</th>
-						<th>City</th>
-						<th>State</th>
-						<th>Zip Code</th>
+						<th>Role</th>
 						<th>Peanut</th>
 						<th>Egg</th>
 						<th>Dairy</th>
@@ -42,9 +40,7 @@
 					<tr th:each="User : ${userslist}">
 						<td th:text="${User.id}"></td>
 						<td th:text="${User.name}"></td>
-						<td th:text="${User.city}"></td>
-						<td th:text="${User.state}"></td>
-						<td th:text="${User.zipcode}"></td>
+						<td th:text="${User.role}"></td>
 						<td th:if="${User.peanutInterested} == true" style="color: green">Yes</td>
 						<td th:if="${User.peanutInterested} == false" style="color: red">No</td>
 						<td th:if="${User.eggInterested} == true" style="color: green">Yes</td>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,18 +27,28 @@ public class DiningReviewController {
 	private final UsersRepository usersRepository;
 	private final RestaurantRepository restaurantRepository;
 	private final ReviewRepository reviewRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public DiningReviewController(UsersRepository usersRepository, RestaurantRepository restaurantRepository,
-			ReviewRepository reviewRepository) {
+			ReviewRepository reviewRepository, PasswordEncoder passwordEncoder) {
 		this.usersRepository = usersRepository;
 		this.restaurantRepository = restaurantRepository;
 		this.reviewRepository = reviewRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping("/")
 	public String homePage(Model model) {
 		model.addAttribute("restaurantlist", restaurantRepository.getAllByOrderByNameAsc());
 		return "index";
+	}
+	
+//	Login page
+
+	@GetMapping("/login")
+	public String loginPage(Model model) {
+		return "login";
+		
 	}
 
 // Admin Section
@@ -194,6 +205,7 @@ public class DiningReviewController {
 			redirectAttributes.addFlashAttribute("message", "User already exist!");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 		} else {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			this.usersRepository.save(user);
 			redirectAttributes.addFlashAttribute("message", "User added!");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-success");
