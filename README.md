@@ -3,9 +3,9 @@
 
 A Java RESTful API application created as a summary of my programming learning, built **fully from scratch** and is my first application in my portfolio. The application brings together my skills in **Java** , **SpringBoot** , **SQL**  database operations and the usage of additional frameworks such as Lombok. The application includes a **backend**  and **frontend** .
 
-You can run application online: [http://myapplication.ovh](http://myapplication.ovh) 
+~~You can run application online: [http://myapplication.ovh](http://myapplication.ovh) ~~
 
-Admin panel:					[http://myapplication.ovh/admin](http://myapplication.ovh/admin) 
+~~Admin panel:					[http://myapplication.ovh/admin](http://myapplication.ovh/admin) ~~
 
 ## Used in project
 
